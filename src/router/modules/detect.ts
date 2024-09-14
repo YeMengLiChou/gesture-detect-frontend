@@ -16,7 +16,7 @@ export default {
     {
       path: "/detect/pic",
       name: "DetetPicture",
-      component: () => import("@/views/detect/video/index.vue"),
+      component: () => import("@/views/detect/pic/index.vue"),
       meta: {
         title: "图片检测"
       }

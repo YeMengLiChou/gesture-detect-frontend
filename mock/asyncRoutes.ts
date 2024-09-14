@@ -6,6 +6,7 @@ import { defineFakeRoute } from "vite-plugin-fake-server/client";
  * admin：管理员角色
  * common：普通角色
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const permissionRouter = {
   path: "/permission",
   meta: {
@@ -62,7 +63,8 @@ export default defineFakeRoute([
     response: () => {
       return {
         success: true,
-        data: [permissionRouter]
+        // data: [permissionRouter]
+        data: []
       };
     }
   }

@@ -217,20 +217,22 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="container">
-    <el-row :gutter="4">
+  <el-container>
+    <el-row>
       <el-col :span="11">
         <el-text class="title-text">摄像头</el-text>
-        <el-empty
-          v-show="cameraStatus === CameraStatus.Stop"
-          class="camera"
-          description="未开启摄像头"
-        />
-        <video
-          v-show="cameraStatus !== CameraStatus.Stop"
-          ref="showVideo"
-          class="camera"
-        />
+        <div class="camera-container">
+          <el-empty
+            v-show="cameraStatus === CameraStatus.Stop"
+            class="camera"
+            description="未开启摄像头"
+          />
+          <video
+            v-show="cameraStatus !== CameraStatus.Stop"
+            ref="showVideo"
+            class="camera"
+          />
+        </div>
         <el-row class="action-bar">
           <el-button
             type="info"
@@ -261,58 +263,72 @@ onBeforeUnmount(() => {
       </el-col>
       <el-col :span="11">
         <el-text class="title-text">识别结果</el-text>
-        <canvas
-          v-show="receiveFrameCount !== 0"
-          ref="showCanvas"
-          class="camera"
-        />
-        <el-empty
-          v-show="receiveFrameCount === 0"
-          class="camera"
-          description="暂无数据"
-        />
-        <div class="info-text">
-          <el-text>服务器Scoket状态: </el-text>
-          <el-tag v-if="socketConnected" type="success">已连接</el-tag>
-          <el-tag v-else type="danger">未连接</el-tag>
+        <div class="camera-container">
+          <canvas
+            v-show="receiveFrameCount !== 0"
+            ref="showCanvas"
+            class="camera"
+          />
+          <el-empty
+            v-show="receiveFrameCount === 0"
+            class="camera"
+            description="暂无数据"
+          />
         </div>
-        <div class="info-text">
-          <el-text
-            >发送/接收/渲染帧数：{{ sendFrameCount }} /
-            {{ receiveFrameCount }} / {{ renderFrameCount }}</el-text
-          >
-        </div>
-        <div class="info-text">
-          <el-text>当前发送帧率：{{ fps }}</el-text>
-        </div>
-        <div class="info-text">
-          <el-text>平均发送帧率：{{ averageSendFps }}</el-text>
-        </div>
-        <div class="info-text">
-          <el-text>平均接收帧率：{{ averageRecviceFps }}</el-text>
-        </div>
-        <div class="info-text">
-          <el-text>平均渲染帧率：{{ averageRenderFps }}</el-text>
+        <div class="flex flex-col w-full justify-center">
+          <div class="info-text">
+            <el-text>服务器Scoket状态: </el-text>
+            <el-tag v-if="socketConnected" type="success">已连接</el-tag>
+            <el-tag v-else type="danger">未连接</el-tag>
+          </div>
+          <div class="info-text">
+            <el-text
+              >发送/接收/渲染帧数：{{ sendFrameCount }} /
+              {{ receiveFrameCount }} / {{ renderFrameCount }}</el-text
+            >
+          </div>
+          <div class="info-text">
+            <el-text>当前发送帧率：{{ fps }}</el-text>
+          </div>
+          <div class="info-text">
+            <el-text>平均发送帧率：{{ averageSendFps }}</el-text>
+          </div>
+          <div class="info-text">
+            <el-text>平均接收帧率：{{ averageRecviceFps }}</el-text>
+          </div>
+          <div class="info-text">
+            <el-text>平均渲染帧率：{{ averageRenderFps }}</el-text>
+          </div>
         </div>
       </el-col>
     </el-row>
-  </div>
+  </el-container>
 </template>
 
 <style lang="scss" scoped>
-.container {
-  background-color: #ffffff;
-  padding: 20px;
+.el-container {
+  width: 100%;
   height: 100%;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.camera-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.el-row {
   width: 100%;
 }
 
 .title-text {
   display: block;
+  width: 100%;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  width: 100%;
 }
 
 .camera {
@@ -322,12 +338,12 @@ onBeforeUnmount(() => {
 }
 
 .action-bar {
-  margin-top: 10px;
   justify-content: center;
+  margin-top: 10px;
 
   .el-button {
-    margin-left: 16px;
     margin-right: 16px;
+    margin-left: 16px;
   }
 }
 
