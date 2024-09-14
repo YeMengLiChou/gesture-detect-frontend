@@ -7,6 +7,7 @@ export default defineFakeRoute([
     method: "post",
     response: ({ body }) => {
       if (body.username === "admin") {
+        if (body.password !== "666666") return { success: false, data: {} };
         return {
           success: true,
           data: {
@@ -23,19 +24,26 @@ export default defineFakeRoute([
           }
         };
       } else {
-        return {
-          success: true,
-          data: {
-            avatar: "https://avatars.githubusercontent.com/u/52823142",
-            username: "common",
-            nickname: "小林",
-            roles: ["common"],
-            permissions: ["permission:btn:add", "permission:btn:edit"],
-            accessToken: "eyJhbGciOiJIUzUxMiJ9.common",
-            refreshToken: "eyJhbGciOiJIUzUxMiJ9.commonRefresh",
-            expires: "2030/10/30 00:00:00"
-          }
-        };
+        if (body.username === "li" && body.password === "123456") {
+          return {
+            success: true,
+            data: {
+              avatar: "https://avatars.githubusercontent.com/u/52823142",
+              username: "common",
+              nickname: "小苏",
+              roles: ["common"],
+              permissions: ["permission:btn:add", "permission:btn:edit"],
+              accessToken: "eyJhbGciOiJIUzUxMiJ9.common",
+              refreshToken: "eyJhbGciOiJIUzUxMiJ9.commonRefresh",
+              expires: "2030/10/30 00:00:00"
+            }
+          };
+        } else {
+          return {
+            success: false,
+            data: {}
+          };
+        }
       }
     }
   }

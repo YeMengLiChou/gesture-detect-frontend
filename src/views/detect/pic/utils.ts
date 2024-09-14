@@ -1,10 +1,6 @@
 import { isNil } from "lodash-unified";
 import { throwError } from "element-plus/es/utils/error.mjs";
-import type {
-  UploadProgressEvent,
-  UploadRequestHandler,
-  UploadRequestOptions
-} from "element-plus";
+import type { UploadRequestHandler, UploadRequestOptions } from "element-plus";
 import { isArray } from "element-plus/es/utils/types.mjs";
 
 const SCOPE = "ElUpload";
@@ -47,20 +43,22 @@ export const ajaxUploadAndGetFile: UploadRequestHandler = option => {
   const xhr = new XMLHttpRequest();
   const action = option.action;
 
-  if (xhr.upload) {
-    xhr.upload.addEventListener("progress", evt => {
-      const progressEvt = evt as UploadProgressEvent;
-      progressEvt.percent = evt.total > 0 ? (evt.loaded / evt.total) * 100 : 0;
-      option.onProgress(progressEvt);
-    });
-  }
+  // if (xhr.upload) {
+  //   xhr.upload.addEventListener("progress", evt => {
+  //     const progressEvt = evt as UploadProgressEvent;
+  //     progressEvt.percent = evt.total > 0 ? (evt.loaded / evt.total) * 100 : 0;
+  //     option.onProgress(progressEvt);
+  //   });
+  // }
 
   const formData = new FormData();
   if (option.data) {
     for (const [key, value] of Object.entries(option.data)) {
       if (isArray(value) && value.length) {
         formData.append(key, ...(value as [Blob, string]));
-      } else formData.append(key, value);
+      } else if (typeof value === "string" || value instanceof Blob) {
+        formData.append(key, value);
+      }
     }
   }
   formData.append(option.filename, option.file, option.file.name);
