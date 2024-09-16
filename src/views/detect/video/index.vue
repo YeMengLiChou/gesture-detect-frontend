@@ -82,8 +82,11 @@ socketio.on("connect", () => {
 let currentFrameResult = [];
 
 // 接受处理好的视频帧
-socketio.on("message", async (data: ArrayBuffer) => {
+socketio.on("result", async (data: ArrayBuffer, callback) => {
   if (cameraStatus.value === CameraStatus.Stop) return;
+  if (callback && typeof callback === "function") {
+    callback(Date.now());
+  }
   const blob = new Blob([data], { type: "image/jpeg" });
   const bitmap = await createImageBitmap(blob);
   currentFrameResult.push(bitmap);
@@ -143,6 +146,7 @@ function startVideoCapture() {
         ElMessage.success("摄像头已启动");
         sendFrameCount.value = 0;
         receiveFrameCount.value = 0;
+        renderFrameCount.value = 0;
         startHandleTime.value = Date.now();
 
         cameraStatus.value = CameraStatus.Start;
